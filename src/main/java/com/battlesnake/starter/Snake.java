@@ -116,9 +116,9 @@ public class Snake {
             LOG.info("START");
 
             Map<String, String> response = new HashMap<>();
-            response.put("color", "#888888");
-            response.put("headType", "regular");
-            response.put("tailType", "regular");
+            response.put("color", "#8ec298");
+            response.put("headType", "bendr");
+            response.put("tailType", "round-bum");
             return response;
         }
 
