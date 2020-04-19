@@ -26,6 +26,7 @@ public class Snake {
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
     private static final Handler HANDLER = new Handler();
     private static final Logger LOG = LoggerFactory.getLogger(Snake.class);
+    // private static Board board = new Board();
 
     /**
      * Main entry point.
@@ -37,8 +38,8 @@ public class Snake {
         if (port != null) {
             LOG.info("Found system provided port: {}", port);
         } else {
-            LOG.info("Using default port: {}", port);
             port = "8080";
+            LOG.info("Using default port: {}", port);     
         }
         port(Integer.parseInt(port));
         get("/", (req, res) -> "Your Battlesnake is alive!");
