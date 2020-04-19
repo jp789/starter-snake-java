@@ -14,18 +14,18 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SnakeTest {
+public class DriverTest {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     static {
         OBJECT_MAPPER.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
     }
 
-    private Snake.Handler handler;
+    private Driver.Handler handler;
 
     @BeforeEach
     void setUp() {
-        handler = new Snake.Handler();
+        handler = new Driver.Handler();
     }
 
     @Test

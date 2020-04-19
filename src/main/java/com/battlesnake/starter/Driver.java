@@ -22,10 +22,10 @@ import static spark.Spark.get;
  * For instructions see
  * https://github.com/BattlesnakeOfficial/starter-snake-java/README.md
  */
-public class Snake {
+public class Driver {
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
     private static final Handler HANDLER = new Handler();
-    private static final Logger LOG = LoggerFactory.getLogger(Snake.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Driver.class);
 
     // map of boards the battlesnake will be playing on, i.e. gameid -> board obj
     // for now it'll be 1 key-val pair, i.e. only playing one game at a time
@@ -119,6 +119,7 @@ public class Snake {
         public Map<String, String> start(JsonNode startRequest) {
             LOG.info("START");
             
+            // initialize board, food + snakes to be added
             String gameID = startRequest.at("/game/id").asText();
             int height = startRequest.at("/board/height").asInt();
             int width = startRequest.at("/board/width").asInt();
