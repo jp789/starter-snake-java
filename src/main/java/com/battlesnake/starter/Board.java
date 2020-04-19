@@ -19,7 +19,9 @@ public class Board {
   }
 
   public String toString() {
-    return "";
+    return "GameID: " + this.gameID + 
+    " board height " + this.height + 
+    " board width: " + this.width;
 
   }
 
