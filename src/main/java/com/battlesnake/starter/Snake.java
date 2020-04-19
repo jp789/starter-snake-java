@@ -1,4 +1,4 @@
-package com.battlesnake.starter;
+  package com.battlesnake.starter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -26,8 +26,11 @@ public class Snake {
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
     private static final Handler HANDLER = new Handler();
     private static final Logger LOG = LoggerFactory.getLogger(Snake.class);
-    // private static Board board = new Board();
 
+    // map of boards the battlesnake will be playing on, i.e. gameid -> board obj
+    // for now it'll be 1 key-val pair, i.e. only playing one game at a time
+    private static final Map<String, Board> BOARDS =  new HashMap<String, Board>();
+  
     /**
      * Main entry point.
      *
@@ -115,7 +118,13 @@ public class Snake {
          */
         public Map<String, String> start(JsonNode startRequest) {
             LOG.info("START");
+            
+            String gameID = startRequest.at("/game/id").asText();
+            int height = startRequest.at("/board/height").asInt();
+            int width = startRequest.at("/board/width").asInt();
 
+            BOARDS.put(gameID, new Board(gameID, height, width));
+            
             Map<String, String> response = new HashMap<>();
             response.put("color", "#8ec298");
             response.put("headType", "bendr");
