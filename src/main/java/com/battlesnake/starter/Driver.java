@@ -1,13 +1,17 @@
   package com.battlesnake.starter;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.IntegerDeserializer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import spark.Request;
 import spark.Response;
 
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -124,7 +128,22 @@ public class Driver {
             int height = startRequest.at("/board/height").asInt();
             int width = startRequest.at("/board/width").asInt();
 
-            BOARDS.put(gameID, new Board(gameID, height, width));
+            // thought this was suspect, but it compiled, ran, then printed what i expected
+            // feels good
+            List<Map<String, Integer>> food = JSON_MAPPER.convertValue(startRequest.at("/board/food"), new TypeReference<List<Map<String, Integer>>>(){}) ;
+
+            BOARDS.put(gameID, new Board(gameID, height, width, food));
+            LOG.info(BOARDS.get(gameID).toString());
+
+            // Once i have the food reading done ^, i'll deal with the Snake class
+            // also read up on List parameters, generics to cast properly
+
+            // String snakeID = startRequest.at("/you/id").asText();
+            // String snakeName = startRequest.at("/you/name").asText();
+            // int snakeHealth = startRequest.at("/you/health").asInt();
+            // String shout = startRequest.at("/you/shout").asText();
+
+            // List <Map<String, Integer>> body = startRequest.at("/you/body");
             
             Map<String, String> response = new HashMap<>();
             response.put("color", "#8ec298");
@@ -149,6 +168,16 @@ public class Driver {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
+            
+            /*  
+              - get current game board
+              - [update food + snakes?]
+              - get legal moves -> 
+                  i.e. call a Board func that takes snake parameter and spits out array of legal moves
+                and assign to possibleMoves below
+            */
+            String currGame = moveRequest.at("/game/id").asText();
+            Board currBoard = BOARDS.get(currGame);
 
             String[] possibleMoves = { "up", "down", "left", "right" };
 
