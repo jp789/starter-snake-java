@@ -2,7 +2,6 @@ package com.battlesnake.starter;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.databind.JsonNode;
 
 public class Coordinate {
   private int xcoord, ycoord;
@@ -40,19 +39,6 @@ public class Coordinate {
   public Coordinate(int xcoord, int ycoord) {
     this.xcoord = xcoord;
     this.ycoord = ycoord;
-  }
-
-  public Coordinate (JsonNode coord){
-    /*  
-    coord will be a JsonNode with {x: someint, y:someint}
-    e.g.
-    {
-      "x" : 1,
-      "y" : 2
-    }
-    */
-    this.xcoord = coord.get("x").asInt();
-    this.ycoord = coord.get("y").asInt();
   }
 
   @Override

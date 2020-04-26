@@ -10,7 +10,6 @@ public class Board {
 
   private int height, width;
   private List<Coordinate> food;
-
   private List<Snake> snakes;
 
   public Board(){
