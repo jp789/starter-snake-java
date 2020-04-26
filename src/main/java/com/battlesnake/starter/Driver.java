@@ -135,15 +135,6 @@ public class Driver {
             int height = startRequest.at("/board/height").asInt();
             int width = startRequest.at("/board/width").asInt();
             
-            // List<Coordinate> food = new ArrayList<Coordinate>();
-            // ArrayNode foodNode = (ArrayNode)startRequest.at("/board/food");
-
-            // for(int i = 0; i < foodNode.size(); i++){
-            //   food.add(new Coordinate(foodNode.get(i)));
-            // }
-
-            // I think understanding Jackson Annotations will get this to work, until then I'll stick to the old food init
-            // Based Stack Overflow
             List<Coordinate> food = Arrays.asList(JSON_MAPPER.convertValue(startRequest.at("/board/food"), Coordinate[].class));
             
             BOARDS.put(gameID, new Board(gameID, height, width, food));
@@ -161,6 +152,8 @@ public class Driver {
               int snakeHealth = snake.get("health").asInt();
               String shout = snake.get("shout").asText();
 
+              // The convertValue will require more work for this because 
+              // there is lots of nesting, i.e. list of snakes where each snake has a body
               List<Coordinate> body = new ArrayList<Coordinate>();
               ArrayNode bodyNode = (ArrayNode)snake.get("body");
 
