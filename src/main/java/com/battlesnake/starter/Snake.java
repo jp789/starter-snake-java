@@ -55,6 +55,9 @@ public class Snake {
     this.body = body;
   }
 
+  public Snake(){
+    super();
+  }
   public Snake(String snakeID, String name, String shout, int health, List<Coordinate> body){
 
     this.id= snakeID;

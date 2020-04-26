@@ -143,25 +143,8 @@ public class Driver {
 
             // initalize snakes and add them to the board to complete board initialization
 
-            ArrayNode snakes = (ArrayNode)startRequest.at("/board/snakes");
-            List<Snake> snakeObjs = new ArrayList<>();
+            List<Snake> snakeObjs = Arrays.asList(JSON_MAPPER.convertValue(startRequest.at("/board/snakes"), Snake[].class));
             
-            for(JsonNode snake: snakes){
-              String snakeID = snake.get("id").asText();
-              String snakeName = snake.get("name").asText();
-              int snakeHealth = snake.get("health").asInt();
-              String shout = snake.get("shout").asText();
-
-              // The convertValue will require more work for this because 
-              // there is lots of nesting, i.e. list of snakes where each snake has a body
-              List<Coordinate> body = new ArrayList<Coordinate>();
-              ArrayNode bodyNode = (ArrayNode)snake.get("body");
-
-              for(int i = 0; i < bodyNode.size(); i++){
-                body.add(new Coordinate(bodyNode.get(i)));
-              }
-              snakeObjs.add(new Snake(snakeID, snakeName, shout, snakeHealth, body)) ;
-            }
             BOARDS.get(gameID).setSnakes(snakeObjs);
             LOG.info("After parsing snakes");
             LOG.info(BOARDS.get(gameID).toString());
