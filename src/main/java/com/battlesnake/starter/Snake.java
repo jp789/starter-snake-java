@@ -1,14 +1,8 @@
 package com.battlesnake.starter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 import java.util.List;
-import java.util.Map;
+
 
 public class Snake {
   private String id, name, shout;
@@ -58,14 +52,13 @@ public class Snake {
   public Snake(){
     super();
   }
+
   public Snake(String snakeID, String name, String shout, int health, List<Coordinate> body){
 
     this.id= snakeID;
     this.name = name;
     this.shout = shout;
     this.health = health;
-    
-    // will initialize the body when i understand how to convert Jsonnode list of dicts to java obj...
     this.body = body;
 
     /* Think the body is initially a list of 3 coordinate pairs: the first pair is the head, 
@@ -96,34 +89,6 @@ public class Snake {
       } ]*/
   }
 
-  // constructor can just parse the JsonNode into a java snake object!
-  public Snake(JsonNode snake){
-    /* 
-    Sample snake body:
-    {
-        "id": "snake-id-string",
-        "name": "Sneky Snek",
-        "health": 90,
-        "body": [
-          {
-            "x": 1,
-            "y": 3
-          },
-          {
-            "x": 1,
-            "y": 3
-          },
-          {
-            "x": 1,
-            "y": 3
-          }
-        ],
-        "shout": "Hello my name is Sneky Snek"
-    }
-    */
-
-
-  }
   public String toString(){
     return "Snake id: " + this.id +
     " Snake health: " + this.health +

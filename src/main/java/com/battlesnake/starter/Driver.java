@@ -126,27 +126,16 @@ public class Driver {
         public Map<String, String> start(JsonNode startRequest) {
             LOG.info("START");
             
-            /* All the board initialization should be done in Board constructor
-            i.e. a new one that can take the entire start/ json and parse board info 
-            just as we did below */
-
             // start initializing board
+
+            Board board = JSON_MAPPER.convertValue(startRequest.at("/board"), Board.class);
+            
             String gameID = startRequest.at("/game/id").asText();
-            int height = startRequest.at("/board/height").asInt();
-            int width = startRequest.at("/board/width").asInt();
+            board.setGameID(gameID);
+
+            BOARDS.put(gameID, board);
             
-            List<Coordinate> food = Arrays.asList(JSON_MAPPER.convertValue(startRequest.at("/board/food"), Coordinate[].class));
-            
-            BOARDS.put(gameID, new Board(gameID, height, width, food));
             LOG.info("After parsing the board");
-            LOG.info(BOARDS.get(gameID).toString());
-
-            // initalize snakes and add them to the board to complete board initialization
-
-            List<Snake> snakeObjs = Arrays.asList(JSON_MAPPER.convertValue(startRequest.at("/board/snakes"), Snake[].class));
-            
-            BOARDS.get(gameID).setSnakes(snakeObjs);
-            LOG.info("After parsing snakes");
             LOG.info(BOARDS.get(gameID).toString());
             
             Map<String, String> response = new HashMap<>();

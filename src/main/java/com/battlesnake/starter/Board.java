@@ -1,47 +1,23 @@
 package com.battlesnake.starter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Board {
+  @JsonIgnore
   private String gameID;
+
   private int height, width;
   private List<Coordinate> food;
 
   private List<Snake> snakes;
 
-  public Board (JsonNode startRequest){
-    // use json sent in startrequest to initialize the board
-
-    /* Will need to chain constructors, so first call has to be
-    this(functogetgameidfromreq, ...., functogetlistofsnakesfromreq) 
-    Those would have to be static functions to parse start/ json
-    Refer to:
-    https://stackoverflow.com/questions/285177/how-do-i-call-one-constructor-from-another-in-java/#15348070
-    */
-
-
-    ObjectMapper objectMapper = new ObjectMapper();
-
-    // start initializing board
-    String gameID = startRequest.at("/game/id").asText();
-    int height = startRequest.at("/board/height").asInt();
-    int width = startRequest.at("/board/width").asInt();
-    
-    List<Coordinate> food = new ArrayList<Coordinate>();
-    ArrayNode foodNode = (ArrayNode)startRequest.at("/board/food");
-
-    for(int i = 0; i < foodNode.size(); i++){
-      food.add(new Coordinate(foodNode.get(i)));
-    }
-    
-    
+  public Board(){
+    super();
   }
+
+  // technically isn't used by ObjectMapper, but i'd like to keep it in case I wanna make my own board objects
   public Board(String gameID, int height, int width, List<Coordinate> food, List<Snake> snakes){
     this.gameID = gameID;
     this.height = height;
@@ -50,17 +26,10 @@ public class Board {
     this.snakes = snakes;
   }
 
-  public Board(String gameID, int height, int width, List<Coordinate> food) {
-    this.gameID = gameID;
-    this.height = height;
-    this.width = width;
-    this.food = food;
-  }
-
   public String getGameID() {
     return this.gameID;
   }
-
+ 
   public void setGameID(String gameID) {
     this.gameID = gameID;
   }

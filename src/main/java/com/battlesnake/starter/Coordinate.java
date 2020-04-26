@@ -32,7 +32,7 @@ public class Coordinate {
     this.ycoord = ycoord;
   }
 
-  // need default constructor to juke the "cannot deserialized from Object error"
+  // need default constructor to allow Jackson lib to deserialize objects
   public Coordinate(){
     super();
   }
