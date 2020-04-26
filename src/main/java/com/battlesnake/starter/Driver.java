@@ -14,6 +14,7 @@ import spark.Response;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -134,12 +135,16 @@ public class Driver {
             int height = startRequest.at("/board/height").asInt();
             int width = startRequest.at("/board/width").asInt();
             
-            List<Coordinate> food = new ArrayList<Coordinate>();
-            ArrayNode foodNode = (ArrayNode)startRequest.at("/board/food");
+            // List<Coordinate> food = new ArrayList<Coordinate>();
+            // ArrayNode foodNode = (ArrayNode)startRequest.at("/board/food");
 
-            for(int i = 0; i < foodNode.size(); i++){
-              food.add(new Coordinate(foodNode.get(i)));
-            }
+            // for(int i = 0; i < foodNode.size(); i++){
+            //   food.add(new Coordinate(foodNode.get(i)));
+            // }
+
+            // I think understanding Jackson Annotations will get this to work, until then I'll stick to the old food init
+            // Based Stack Overflow
+            List<Coordinate> food = Arrays.asList(JSON_MAPPER.convertValue(startRequest.at("/board/food"), Coordinate[].class));
             
             BOARDS.put(gameID, new Board(gameID, height, width, food));
             LOG.info("After parsing the board");

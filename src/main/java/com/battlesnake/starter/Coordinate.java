@@ -1,5 +1,7 @@
 package com.battlesnake.starter;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class Coordinate {
@@ -10,20 +12,29 @@ public class Coordinate {
   
   Then we could use it for both food, and body!*/
 
+  @JsonGetter("x")
   public int getXcoord() {
     return this.xcoord;
   }
 
+  @JsonSetter("x")
   public void setXcoord(int xcoord) {
     this.xcoord = xcoord;
   }
 
+  @JsonGetter("y")
   public int getYcoord() {
     return this.ycoord;
   }
 
+  @JsonSetter("y")
   public void setYcoord(int ycoord) {
     this.ycoord = ycoord;
+  }
+
+  // need default constructor to juke the "cannot deserialized from Object error"
+  public Coordinate(){
+    super();
   }
 
   public Coordinate(int xcoord, int ycoord) {
