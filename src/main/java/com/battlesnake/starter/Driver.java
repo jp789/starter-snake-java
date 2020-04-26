@@ -1,10 +1,11 @@
-  package com.battlesnake.starter;
+package com.battlesnake.starter;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.NumberDeserializers.IntegerDeserializer;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import spark.Request;
 import spark.Response;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -123,27 +125,48 @@ public class Driver {
         public Map<String, String> start(JsonNode startRequest) {
             LOG.info("START");
             
-            // initialize board, food + snakes to be added
+            /* All the board initialization should be done in Board constructor
+            i.e. a new one that can take the entire start/ json and parse board info 
+            just as we did below */
+
+            // start initializing board
             String gameID = startRequest.at("/game/id").asText();
             int height = startRequest.at("/board/height").asInt();
             int width = startRequest.at("/board/width").asInt();
+            
+            List<Coordinate> food = new ArrayList<Coordinate>();
+            ArrayNode foodNode = (ArrayNode)startRequest.at("/board/food");
 
-            // thought this was suspect, but it compiled, ran, then printed what i expected
-            // feels good
-            List<Map<String, Integer>> food = JSON_MAPPER.convertValue(startRequest.at("/board/food"), new TypeReference<List<Map<String, Integer>>>(){}) ;
-
+            for(int i = 0; i < foodNode.size(); i++){
+              food.add(new Coordinate(foodNode.get(i)));
+            }
+            
             BOARDS.put(gameID, new Board(gameID, height, width, food));
+            LOG.info("After parsing the board");
             LOG.info(BOARDS.get(gameID).toString());
 
-            // Once i have the food reading done ^, i'll deal with the Snake class
-            // also read up on List parameters, generics to cast properly
+            // initalize snakes and add them to the board to complete board initialization
 
-            // String snakeID = startRequest.at("/you/id").asText();
-            // String snakeName = startRequest.at("/you/name").asText();
-            // int snakeHealth = startRequest.at("/you/health").asInt();
-            // String shout = startRequest.at("/you/shout").asText();
+            ArrayNode snakes = (ArrayNode)startRequest.at("/board/snakes");
+            List<Snake> snakeObjs = new ArrayList<>();
+            
+            for(JsonNode snake: snakes){
+              String snakeID = snake.get("id").asText();
+              String snakeName = snake.get("name").asText();
+              int snakeHealth = snake.get("health").asInt();
+              String shout = snake.get("shout").asText();
 
-            // List <Map<String, Integer>> body = startRequest.at("/you/body");
+              List<Coordinate> body = new ArrayList<Coordinate>();
+              ArrayNode bodyNode = (ArrayNode)snake.get("body");
+
+              for(int i = 0; i < bodyNode.size(); i++){
+                body.add(new Coordinate(bodyNode.get(i)));
+              }
+              snakeObjs.add(new Snake(snakeID, snakeName, shout, snakeHealth, body)) ;
+            }
+            BOARDS.get(gameID).setSnakes(snakeObjs);
+            LOG.info("After parsing snakes");
+            LOG.info(BOARDS.get(gameID).toString());
             
             Map<String, String> response = new HashMap<>();
             response.put("color", "#8ec298");
