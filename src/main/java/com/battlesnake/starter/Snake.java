@@ -8,6 +8,25 @@ public class Snake {
   private String id, name, shout;
   private int health;
   private List<Coordinate> body;
+  private Coordinate head;
+  private int length;
+
+  public int getLength() {
+    return this.length;
+  }
+
+  public void setLength(int length) {
+    this.length = length;
+  }
+
+
+  public Coordinate getHead() {
+    return this.head;
+  }
+
+  public void setHead(Coordinate head) {
+    this.head = head;
+  }
 
   public String getId() {
     return this.id;
@@ -53,13 +72,15 @@ public class Snake {
     super();
   }
 
-  public Snake(String snakeID, String name, String shout, int health, List<Coordinate> body){
+  public Snake(String snakeID, String name, String shout, int health, List<Coordinate> body, Coordinate head, int length){
 
     this.id= snakeID;
     this.name = name;
     this.shout = shout;
     this.health = health;
     this.body = body;
+    this.head = head;
+    this.length
 
     /* Think the body is initially a list of 3 coordinate pairs: the first pair is the head, 
     the 2nd pair is the torso, the 3rd pair is the tail. Presumably as the snake eats the list gets bigger
@@ -94,7 +115,7 @@ public class Snake {
     " Snake health: " + this.health +
     " Snake name: " + this.name +
     " Snake shout: " + this.shout +
-    " the body: " + this.body.toString();
+    " the body: " + this.body.toString(); // not including head attr. because it's the first element of body
   }
   
 

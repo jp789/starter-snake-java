@@ -3,6 +3,7 @@ package com.battlesnake.starter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;
+import java.util.Optional;
 
 public class Board {
   @JsonIgnore
@@ -67,6 +68,24 @@ public class Board {
 
   // get legal moves for the snake
   public String[] getLegalMoves(String snakeID){
+    // // using streams so post
+    // // https://stackoverflow.com/questions/33992479/java-8-stream-api-to-find-unique-object-matching-a-property-value/#33993343
+    // // get current snake
+    // Snake currSnake;
+    // Optional<Snake> tmp = this.snakes.stream().filter((snake) -> { 
+    //   return snake.getId() == snakeID;
+    // }).findAny();
+
+    // if(tmp.isPresent()){
+    //   currSnake = tmp.get();
+    //   System.out.println("Found your snake!")
+    // }
+    // else{
+    //   System.out.println("No snake on board with: " + snakeID);
+    // }
+
+    // // For now just gonna try moving in a direction that IS NOT the torso..
+
     String[] temp = { "up", "down", "left", "right" };
     return temp;
   }

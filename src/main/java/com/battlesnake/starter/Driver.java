@@ -171,8 +171,14 @@ public class Driver {
             */
             String currGame = moveRequest.at("/game/id").asText();
             Board currBoard = BOARDS.get(currGame);
+            
+            // should update food and snakes here, but am going to come back to this
+            // will focus on making simple legal moves first i.e. where's the board edge, where's my body
+            // in the future will account for other snakes and optimize to eat the most food
 
-            String[] possibleMoves = { "up", "down", "left", "right" };
+            String yourSnakeID = moveRequest.at("/you/id").asText();
+
+            String[] possibleMoves = currBoard.getLegalMoves(yourSnakeID);
 
             // Choose a random direction to move in
             int choice = new Random().nextInt(possibleMoves.length);
