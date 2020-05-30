@@ -68,25 +68,26 @@ public class Board {
 
   // get legal moves for the snake
   public String[] getLegalMoves(String snakeID){
-    // // using streams so post
-    // // https://stackoverflow.com/questions/33992479/java-8-stream-api-to-find-unique-object-matching-a-property-value/#33993343
-    // // get current snake
-    // Snake currSnake;
-    // Optional<Snake> tmp = this.snakes.stream().filter((snake) -> { 
-    //   return snake.getId() == snakeID;
-    // }).findAny();
 
-    // if(tmp.isPresent()){
-    //   currSnake = tmp.get();
-    //   System.out.println("Found your snake!")
-    // }
-    // else{
-    //   System.out.println("No snake on board with: " + snakeID);
-    // }
+    // using streams so post
+    // https://stackoverflow.com/questions/33992479/java-8-stream-api-to-find-unique-object-matching-a-property-value/#33993343
+    // get current snake
+    Snake currSnake;
+    Optional<Snake> tmp = this.snakes.stream().filter((snake) -> { 
+      return snake.getId().equals(snakeID);
+    }).findAny();
 
-    // // For now just gonna try moving in a direction that IS NOT the torso..
+    if(tmp.isPresent()){
+      currSnake = tmp.get();
+      System.out.println("Found your snake!");
+    }
+    else{
+      System.out.println("No snake on board with: " + snakeID);
+    }
 
-    String[] temp = { "up", "down", "left", "right" };
+    
+    // always go up - just testing i actually grab the right snake above^
+    String[] temp = { "up"};
     return temp;
   }
 

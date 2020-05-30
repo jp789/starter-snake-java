@@ -19,7 +19,6 @@ public class Snake {
     this.length = length;
   }
 
-
   public Coordinate getHead() {
     return this.head;
   }
@@ -80,7 +79,7 @@ public class Snake {
     this.health = health;
     this.body = body;
     this.head = head;
-    this.length
+    this.length = length;
 
     /* Think the body is initially a list of 3 coordinate pairs: the first pair is the head, 
     the 2nd pair is the torso, the 3rd pair is the tail. Presumably as the snake eats the list gets bigger
