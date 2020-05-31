@@ -52,9 +52,8 @@ public class Driver {
             LOG.info("Using default port: {}", port);     
         }
         port(Integer.parseInt(port));
-        get("/", (req, res) -> "Your Battlesnake is alive!");
+        get("/", HANDLER::process, JSON_MAPPER::writeValueAsString);
         post("/start", HANDLER::process, JSON_MAPPER::writeValueAsString);
-        post("/ping", HANDLER::process, JSON_MAPPER::writeValueAsString);
         post("/move", HANDLER::process, JSON_MAPPER::writeValueAsString);
         post("/end", HANDLER::process, JSON_MAPPER::writeValueAsString);
     }
@@ -84,8 +83,8 @@ public class Driver {
                 Map<String, String> snakeResponse;
                 if (uri.equals("/start")) {
                     snakeResponse = start(parsedRequest);
-                } else if (uri.equals("/ping")) {
-                    snakeResponse = ping();
+                } else if (uri.equals("/")) {
+                    snakeResponse = root();
                 } else if (uri.equals("/move")) {
                     snakeResponse = move(parsedRequest);
                 } else if (uri.equals("/end")) {
@@ -102,15 +101,17 @@ public class Driver {
         }
 
         /**
-         * The Battlesnake engine calls this function to make sure your snake is
-         * working.
-         * 
-         * @return an dummy response. The Battlesnake engine will not read this data.
+         * This request will be made periodically to retrieve information about your Battlesnake, 
+         * including its display options, author, etc.
          */
-        public Map<String, String> ping() {
-            Map<String, String> response = new HashMap<>();
-            response.put("message", "pong");
-            return response;
+        public Map<String, String> root() {
+          Map<String, String> response = new HashMap<>();
+          response.put("apiversion", "1");
+          response.put("author","jp");
+          response.put("color", "#8ec298");
+          response.put("head", "bendr");
+          response.put("tail", "round-bum");
+          return response;
         }
 
         /**
@@ -120,8 +121,7 @@ public class Driver {
          *
          * @param startRequest a JSON data map containing the information about the game
          *                     that is about to be played.
-         * @return a response back to the engine containing the Battlesnake setup
-         *         values.
+         *
          */
         public Map<String, String> start(JsonNode startRequest) {
             LOG.info("START");
@@ -138,11 +138,8 @@ public class Driver {
             LOG.info("After parsing the board");
             LOG.info(BOARDS.get(gameID).toString());
             
-            Map<String, String> response = new HashMap<>();
-            response.put("color", "#8ec298");
-            response.put("headType", "bendr");
-            response.put("tailType", "round-bum");
-            return response;
+            // response is ignored by game engine...
+            return  new HashMap<>();
         }
 
         /**
